@@ -3,19 +3,20 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const register = async (req, res) => {
-    const { nombre, correo, contrasena, compania_id } = req.body;
+    const { nombre, apellido, correo, contrasena, compania_id } = req.body;
 
-    if (!nombre || !correo || !contrasena || !compania_id) {
+    if (!nombre || !apellido || !correo || !contrasena || !compania_id) {
         return res.status(400).json({ message: "Todos los campos son obligatorios" });
     }
 
     try {
-        const newUser = await User.create({ nombre, correo, contrasena, compania_id });
+        const newUser = await User.create({ nombre, apellido, correo, contrasena, compania_id });
         res.status(201).json({
             message: "Usuario registrado con éxito",
             user: {
                 id: newUser.id,
                 nombre: newUser.nombre,
+                apellido: newUser.apellido,
                 correo: newUser.correo,
                 compania_id: newUser.compania_id,
             },

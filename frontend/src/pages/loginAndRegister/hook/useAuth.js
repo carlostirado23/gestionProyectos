@@ -47,16 +47,19 @@ const useAuth = () => {
     };
 
     const login = async (data) => {
+        console.log("Datos de login:", data);
         try {
             const result = await sendRequest("/api/auth/login", data);
-            setSuccess(result.message || "Inicio de sesión exitoso");
-
+            console.log("Respuesta del login:", result);
+            
             if (result.token) {
                 localStorage.setItem("token", result.token);
                 setToken(result.token);
+                setSuccess("Inicio de sesión exitoso");
+                
             }
-        } catch {
-            // El error ya está manejado
+        } catch (err) {
+            console.error("Error de login completo:", err);
         }
     };
 
