@@ -9,13 +9,13 @@ const User = {
 
         // Generar hash de la contraseña
         const saltRounds = 10;
-        const passwordHash = await bcrypt.hash(contrasena, saltRounds);
+        const hashedPassword = await bcrypt.hash(contrasena, saltRounds);
 
-        // Insertar en la base de datos
+        
         const result = await pool.query(
-            `INSERT INTO usuarios (nombre, apellido, correo, contrasena, compania_id, password_hash) 
-             VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, nombre, correo, compania_id`,
-            [nombre, apellido, correo, contrasena, compania_id, passwordHash]
+            `INSERT INTO usuarios (nombre, apellido, correo, contrasena, compania_id) 
+             VALUES ($1, $2, $3, $4, $5) RETURNING id, nombre, correo, compania_id`,
+            [nombre, apellido, correo, hashedPassword, compania_id]
         );
 
         return result.rows[0];
@@ -23,7 +23,7 @@ const User = {
 
     async findByEmail(correo) {
         const result = await pool.query(
-            `SELECT id, nombre, apellido, correo, compania_id, password_hash 
+            `SELECT id, nombre, apellido, correo, compania_id, contrasena 
              FROM usuarios WHERE correo = $1`,
             [correo]
         );
