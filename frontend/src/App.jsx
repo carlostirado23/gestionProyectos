@@ -4,7 +4,9 @@ import Home from "./pages/home/Home";
 import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
+    // token
     const isAuthenticated = !!localStorage.getItem("token");
+    
     return (
         <Routes>
             {/* Ruta pública */}
